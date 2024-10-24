@@ -1,0 +1,135 @@
+
+ 
+DAY 2
+class Queue:  
+    def __init__(self):  # Corrected the constructor name here  
+        self.items = []  
+
+    def is_empty(self):  
+        return len(self.items) == 0  
+
+    def enqueue(self, item):  
+        self.items.insert(0, item)  
+
+    def dequeue(self):  
+        if not self.is_empty():  
+            return self.items.pop()  
+        else:  
+            return "Queue is empty"  
+
+    def front(self):  
+        if not self.is_empty():  
+            return self.items[-1]  
+        else:  
+            return "Queue is empty"  
+
+    def size(self):  
+        return len(self.items)  
+
+    def display(self):  
+        return self.items[::-1]  
+
+q = Queue()  
+
+q.enqueue(1)  
+q.enqueue(2)  
+q.enqueue(3)  
+
+print("Queue after enqueue operations:", q.display())  
+print("Front of queue:", q.front())  
+print("Queue size:", q.size())  
+
+# Dequeue operation  
+print("Dequeued item:", q.dequeue())  
+print("Queue after dequeue operation:", q.display())  
+
+# Enqueue another item  
+q.enqueue(4)  
+print("Queue after enqueueing 4:", q.display())
+Queue after enqueue operations: [1, 2, 3]
+Front of queue: 1
+Queue size: 3
+Dequeued item: 1
+Queue after dequeue operation: [2, 3]
+Queue after enqueueing 4: [2, 3, 4]
+Lift Management System
+from queue import Queue
+
+class LiftManagement:
+    def __init__(self):
+        self.floor_queue = Queue()
+        self.current_floor = 0  # Assuming the lift starts at the ground floor (0)
+
+    # Add a floor request to the queue
+    def request_floor(self, floor):
+        if floor != self.current_floor:
+            print(f"Floor {floor} requested.")
+            self.floor_queue.put(floor)
+        else:
+            print(f"Lift is already on floor {floor}")
+
+    # Process the next floor request in the queue
+    def move_lift(self):
+        if not self.floor_queue.empty():
+            next_floor = self.floor_queue.get()  # Remove the next floor from the queue
+            print(f"Moving lift from floor {self.current_floor} to floor {next_floor}")
+            self.current_floor = next_floor
+        else:
+            print("No more floor requests.")
+
+    # Get the current floor of the lift
+    def get_current_floor(self):
+        return self.current_floor
+
+    def has_pending_requests(self):
+        return not self.floor_queue.empty()
+
+def main():
+    lift = LiftManagement()
+    running = True
+
+    while running:
+        print(f"\nCurrent Floor: {lift.get_current_floor()}")
+        print("1. Request a floor")
+        print("2. Move lift")
+        print("3. Exit")
+        option = int(input("Choose an option: "))
+
+        if option == 1:
+            floor = int(input("Enter floor number to request: "))
+            lift.request_floor(floor)
+        elif option == 2:
+            lift.move_lift()
+        elif option == 3:
+            running = False
+            print("Exiting lift management system.")
+        else:
+            print("Invalid option. Please try again.")
+
+        # Automatically process pending requests
+        while lift.has_pending_requests():
+            lift.move_lift()
+
+if __name__ == "__main__":
+    main()
+Current Floor: 0
+1. Request a floor
+2. Move lift
+3. Exit
+Choose an option: 1
+Enter floor number to request: 5
+Floor 5 requested.
+Moving lift from floor 0 to floor 5
+
+Current Floor: 5
+1. Request a floor
+2. Move lift
+3. Exit
+Choose an option: 2
+No more floor requests.
+
+Current Floor: 5
+1. Request a floor
+2. Move lift
+3. Exit
+ 
