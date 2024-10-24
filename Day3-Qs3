@@ -1,0 +1,135 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 5  // Define the maximum size of the deque
+
+int deque[MAX];
+int front = -1, rear = -1;  // Initialize front and rear pointers
+
+// Function to check if the deque is full
+int isFull() {
+    return ((front == 0 && rear == MAX - 1) || (front == rear + 1));
+}
+
+// Function to check if the deque is empty
+int isEmpty() {
+    return (front == -1);
+}
+
+// Function to insert an element at the front of the deque
+void insertFront(int value) {
+    if (isFull()) {
+        printf("Deque overflow! Cannot insert %d at the front\n", value);
+        return;
+    }
+
+    if (front == -1) {  // If deque is initially empty
+        front = rear = 0;
+    } else if (front == 0) {
+        front = MAX - 1;  // Wrap around to the last position
+    } else {
+        front--;
+    }
+
+    deque[front] = value;
+    printf("Inserted %d at the front\n", value);
+}
+
+// Function to insert an element at the rear of the deque
+void insertRear(int value) {
+    if (isFull()) {
+        printf("Deque overflow! Cannot insert %d at the rear\n", value);
+        return;
+    }
+
+    if (rear == -1) {  // If deque is initially empty
+        front = rear = 0;
+    } else if (rear == MAX - 1) {
+        rear = 0;  // Wrap around to the first position
+    } else {
+        rear++;
+    }
+
+    deque[rear] = value;
+    printf("Inserted %d at the rear\n", value);
+}
+
+// Function to delete an element from the front of the deque
+void deleteFront() {
+    if (isEmpty()) {
+        printf("Deque underflow! Cannot delete from the front\n");
+        return;
+    }
+
+    printf("Deleted %d from the front\n", deque[front]);
+
+    if (front == rear) {  // If the deque has only one element
+        front = rear = -1;
+    } else if (front == MAX - 1) {
+        front = 0;  // Wrap around to the first position
+    } else {
+        front++;
+    }
+}
+
+// Function to delete an element from the rear of the deque
+void deleteRear() {
+    if (isEmpty()) {
+        printf("Deque underflow! Cannot delete from the rear\n");
+        return;
+    }
+
+    printf("Deleted %d from the rear\n", deque[rear]);
+
+    if (front == rear) {  // If the deque has only one element
+        front = rear = -1;
+    } else if (rear == 0) {
+        rear = MAX - 1;  // Wrap around to the last position
+    } else {
+        rear--;
+    }
+}
+
+// Function to get the front element of the deque
+int getFront() {
+    if (isEmpty()) {
+        printf("Deque is empty! No front element\n");
+        return -1;
+    }
+    return deque[front];
+}
+
+// Function to get the rear element of the deque
+int getRear() {
+    if (isEmpty()) {
+        printf("Deque is empty! No rear element\n");
+        return -1;
+    }
+    return deque[rear];
+}
+
+// Main function to demonstrate deque operations
+int main() {
+    insertRear(10);
+    insertRear(20);
+    insertFront(5);
+    insertFront(2);
+    insertRear(30);  // Deque is now full
+
+    printf("Front element: %d\n", getFront());
+    printf("Rear element: %d\n", getRear());
+
+    deleteFront();
+    deleteRear();
+
+    insertFront(15);  // Inserting after deletion
+    insertRear(35);
+
+    printf("Front element: %d\n", getFront());
+    printf("Rear element: %d\n", getRear());
+
+    deleteFront();
+    deleteRear();
+
+    return 0;
+}
