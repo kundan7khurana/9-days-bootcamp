@@ -1,0 +1,396 @@
+
+creation and insertion & searching
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def traverse(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+
+    def search(self, key):
+        current = self.head
+        while current:
+            if current.data == key:
+                return True
+            current = current.next
+        return False
+
+if __name__ == '__main__':
+    a = int(input("Please enter the first number: "))
+    b = int(input("Please enter the second number: "))
+    c = int(input("Please enter the third number: "))
+
+    my_list = LinkedList()
+    my_list.head = Node(a)
+    second = Node(b)
+    third = Node(c)
+
+    my_list.head.next = second
+    second.next = third
+
+    print("Linked list:")
+    my_list.traverse()
+
+    t = int(input("Enter the number you want to search for: "))
+    if my_list.search(t):
+        print(f"{t} found  ")
+    else:
+        print(f"{t} not found")
+Please enter the first number: 5
+Please enter the second number: 8
+Please enter the third number: 45
+Linked list:
+5 -> 8 -> 45 -> None
+Enter the number you want to search for: 8
+8 found  
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def traverse(self):
+        current = self.head
+        index = 0
+        while current:
+            print(f"Node {index}: {current.data}", end=" -> ")
+            current = current.next
+            index += 1
+        print("None")
+
+    def search(self, key):
+        current = self.head
+        index = 0
+        while current:
+            if current.data == key:
+                return (True, index)
+            current = current.next
+            index += 1
+        return (False, -1)
+
+if __name__ == '__main__':
+    a = int(input("Please enter the first number: "))
+    b = int(input("Please enter the second number: "))
+    c = int(input("Please enter the third number: "))
+
+    my_list = LinkedList()
+    my_list.head = Node(a)
+    second = Node(b)
+    third = Node(c)
+
+    my_list.head.next = second
+    second.next = third
+
+    print("Linked list:")
+    my_list.traverse()
+
+    t = int(input("Enter the number you want to search for: "))
+    found, index = my_list.search(t)
+    if found:
+        print(f"{t} found at index {index}")
+    else:
+        print(f"{t} not found")
+Please enter the first number: 67
+Please enter the second number: 89
+Please enter the third number: 56
+Linked list:
+Node 0: 67 -> Node 1: 89 -> Node 2: 56 -> None
+Enter the number you want to search for: 56
+56 found at index 2
+# Creating a Node class
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+# Creating a LinkedList class
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    # Insertion at the beginning of the linked list
+    def insertAtBegin(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            return
+        else:
+            new_node.next = self.head
+            self.head = new_node
+
+    # Insertion at a specific position in the linked list
+    def insertAtIndex(self, data, index):
+        new_node = Node(data)
+        current_node = self.head
+        position = 0
+        if index == 0:
+            self.insertAtBegin(data)
+        else:
+            while current_node is not None and position + 1 != index:
+                current_node = current_node.next
+                position += 1
+            new_node.next = current_node.next
+            current_node.next = new_node
+
+    # Searching for a node in the linked list
+    def search(self, data):
+        current_node = self.head
+        while current_node is not None:
+            if current_node.data == data:
+                return True
+            current_node = current_node.next
+        return False
+
+# Example usage of the LinkedList class
+linked_list = LinkedList()
+linked_list.insertAtBegin(10)
+linked_list.insertAtBegin(20)
+linked_list.insertAtBegin(30)
+linked_list.insertAtIndex(40, 2)
+
+print(linked_list.search(20))  # Output: True
+print(linked_list.search(50))  # Output: False
+True
+False
+class node:
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+        
+class Linkedlist:
+    def __init__(self):
+        self.head = None
+        
+    def traverse(self):
+        current = self.head
+        index = 0
+        while current:
+            print(f"node {index}-{current.data}",end = " ")
+            current = current.next
+            index += 1
+        print(" ")
+    
+    def search(self,key):
+        current = self.head
+        index = 0
+        while current:
+            if current.data == key:
+                return(True,index)
+            current = current.next
+            index += 1
+        return(False,-1)
+
+if __name__ == '__main__':
+    a = int(input("enter your first number : "))
+    b = int(input("enter your second number : "))
+    c = int(input("enter your third number : "))
+    d = int(input("enter your fourt number : "))
+    e = int(input("enter your fifth number : "))
+    
+    my_list = Linkedlist()
+    my_list.head = node(a)
+    second = node(b)
+    third = node(c)
+    fourth = node(d)
+    fifth = node(e)
+        
+    my_list.head.next = second
+    second.next = third
+    third.next = fourth
+    fourth.next = fifth
+    
+    print("Linkedlist")
+    my_list.traverse()
+    
+    t = int(input("enter the number that you want to search :"))
+    found, index = my_list.search(t)
+    if found:
+            print(f"{t} found at index {index}")
+    else:
+        print(f"Sorry,{t} not found")        
+enter your first number : 66
+enter your second number : 54
+enter your third number : 98
+enter your fourt number : 78
+enter your fifth number : 70
+Linkedlist
+node 0:66->node 1:54->node 2:98->node 3:78->node 4:70-> 
+enter the number that you want to search :50
+50 not found
+class node:
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+        
+class linkedlist:
+    def __init__(self):
+        self.head = None
+        
+    def traverse(self):
+        current = self.head
+        index = 0
+        while current:
+            print(f"node{index}:{current.data}",end=" -> ")
+            current = current.next
+            index += 1
+        print("None")
+        
+    def search(self,key):
+        current = self.head
+        index = 0
+        while current:
+            if current.data == key:
+                return(True,1)
+            current = current.next
+            index +=1
+        return(False,-1)
+    
+if __name__ == '__main__':
+    a = int(input("enter your first number : "))
+    b = int(input("enter your second number : "))
+    c = int(input("enter your third number : "))
+    d = int(input("enter your fourt number : "))
+    e = int(input("enter your fifth number : "))
+    
+    my_list = linkedlist()
+    my_list.head = node(a)
+    second = node(b)
+    third = node(c)
+    fourth = node(d)
+    fifth = node(e)
+    
+    my_list.head.next = second
+    second.next = third
+    third.next = fourth
+    fourth.next = fifth
+    
+    print("linkedlist")
+    my_list.traverse()
+    
+    t = int(input("enter the number that you want to search :"))
+    found,index in my_list.search(t)
+    if found:
+        print(f"{t} found at index {index}")
+        
+    else:
+        print(f"{t} not found")
+            
+                
+        
+        
+    
+        
+enter your first number : 45
+enter your second number : 65
+enter your third number : 33
+enter your fourt number : 89
+enter your fifth number : 56
+linkedlist
+node0:45->node1:65->node2:33->node3:89->node4:56->None
+enter the number that you want to search :33
+33 found at index 2
+Deletion
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        
+    def traverse(self):
+        current = self.head
+        index = 0
+        while current:
+            print(f"Node{index}: {current.data}", end=" -> ")
+            current = current.next
+            index += 1
+        print("None")
+    
+    def delete_node(self, key):
+        # Store head node
+        current = self.head
+        
+        # If the head node itself holds the key to be deleted
+        if current is not None:
+            if current.data == key:
+                self.head = current.next  # Change head
+                current = None            # Free the old head
+                return
+        
+        # Search for the key to be deleted, keep track of the previous node
+        prev = None
+        while current is not None:
+            if current.data == key:
+                break
+            prev = current
+            current = current.next
+        
+        # If key was not present in linked list
+        if current is None:
+            print(f"Node with data {key} not found in the list.")
+            return
+        
+        # Unlink the node from linked list
+        prev.next = current.next
+        current = None
+        print(f"Node with data {key} deleted from the list.")
+        
+if __name__ == '__main__':
+    # Input from the user
+    a = int(input("Enter your first number: "))
+    b = int(input("Enter your second number: "))
+    c = int(input("Enter your third number: "))
+    d = int(input("Enter your fourth number: "))
+    e = int(input("Enter your fifth number: "))
+    
+    # Create a linked list
+    my_list = LinkedList()
+    my_list.head = Node(a)
+    second = Node(b)
+    third = Node(c)
+    fourth = Node(d)
+    fifth = Node(e)
+    
+    # Linking nodes
+    my_list.head.next = second
+    second.next = third
+    third.next = fourth
+    fourth.next = fifth
+    
+    # Display the linked list before deletion
+    print("LinkedList before deletion:")
+    my_list.traverse()
+    
+    # Deleting a node
+    key = int(input("Enter the value of the node you want to delete: "))
+    my_list.delete_node(key)
+    
+    # Display the linked list after deletion
+    print("LinkedList after deletion:")
+    my_list.traverse()
+Enter your first number: 55
+Enter your second number: 45
+Enter your third number: 78
+Enter your fourth number: 98
+Enter your fifth number: 35
+LinkedList before deletion:
+Node0: 55 -> Node1: 45 -> Node2: 78 -> Node3: 98 -> Node4: 35 -> None
+Enter the value of the node you want to delete: 78
+Node with data 78 deleted from the list.
+LinkedList after deletion:
+Node0: 55 -> Node1: 45 -> Node2: 98 -> Node3: 35 -> None
+ 
