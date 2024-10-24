@@ -1,0 +1,119 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a node in the linked list
+struct Node {
+    int data;            // Data part of the node
+    struct Node* next;   // Pointer to the next node
+};
+
+// Function to create a new node
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert a node at the beginning of the linked list
+void insertAtBeginning(struct Node** head, int value) {
+    struct Node* newNode = createNode(value);
+    newNode->next = *head;  // Point the new node to the current head
+    *head = newNode;        // Update the head to be the new node
+    printf("Inserted %d at the beginning of the list.\n", value);
+}
+
+// Function to insert a node at the end of the linked list
+void insertAtEnd(struct Node** head, int value) {
+    struct Node* newNode = createNode(value);
+    if (*head == NULL) {
+        *head = newNode;  // If the list is empty, make the new node the head
+    } else {
+        struct Node* temp = *head;
+        while (temp->next != NULL) {
+            temp = temp->next;  // Traverse to the last node
+        }
+        temp->next = newNode;   // Insert the new node at the end
+    }
+    printf("Inserted %d at the end of the list.\n", value);
+}
+
+// Function to delete a node by value
+void deleteNode(struct Node** head, int value) {
+    struct Node* temp = *head;
+    struct Node* prev = NULL;
+
+    // If the head node itself holds the value to be deleted
+    if (temp != NULL && temp->data == value) {
+        *head = temp->next;  // Change head
+        free(temp);          // Free the old head
+        printf("Deleted %d from the list.\n", value);
+        return;
+    }
+
+    // Search for the node to be deleted
+    while (temp != NULL && temp->data != value) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    // If the value was not present in the list
+    if (temp == NULL) {
+        printf("Value %d not found in the list.\n", value);
+        return;
+    }
+
+    // Unlink the node from the linked list
+    prev->next = temp->next;
+    free(temp);  // Free memory of the node to be deleted
+    printf("Deleted %d from the list.\n", value);
+}
+
+// Function to print the linked list
+void printList(struct Node* head) {
+    struct Node* temp = head;
+    if (temp == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+    printf("Linked list: ");
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+// Function to free the entire linked list
+void freeList(struct Node** head) {
+    struct Node* temp = *head;
+    struct Node* next;
+
+    while (temp != NULL) {
+        next = temp->next;
+        free(temp);  // Free the current node
+        temp = next;
+    }
+
+    *head = NULL;  // Reset head to NULL
+    printf("Freed the entire list.\n");
+}
+
+// Main function to demonstrate linked list operations
+int main() {
+    struct Node* head = NULL;  // Initialize the head of the list
+
+    insertAtBeginning(&head, 10);
+    insertAtBeginning(&head, 20);
+    insertAtEnd(&head, 30);
+    insertAtEnd(&head, 40);
+    
+    printList(head);  // Print the current list
+
+    deleteNode(&head, 20);  // Delete node with value 20
+    printList(head);  // Print the list after deletion
+
+    freeList(&head);  // Free the entire list
+
+    return 0;
+}
