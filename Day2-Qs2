@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 10  // Define the maximum size of the queue (number of requests)
+
+int queue[MAX];      // Queue to store floor requests
+int front = -1, rear = -1;  // Initialize front and rear pointers
+int currentFloor = 0;  // Initial lift position
+
+// Function to check if the queue is full
+int isFull() {
+    return rear == MAX - 1;
+}
+
+// Function to check if the queue is empty
+int isEmpty() {
+    return front == -1 || front > rear;
+}
+
+// Function to add a floor request (enqueue)
+void enqueue(int floor) {
+    if (isFull()) {
+        printf("Request queue is full! Cannot add request for floor %d\n", floor);
+    } else {
+        if (front == -1) {
+            front = 0;  // First insertion
+        }
+        rear++;
+        queue[rear] = floor;
+        printf("Added request for floor %d\n", floor);
+    }
+}
+
+// Function to serve a request (dequeue)
+int dequeue() {
+    if (isEmpty()) {
+        printf("No pending requests\n");
+        return -1;
+    } else {
+        int requestedFloor = queue[front];
+        front++;
+        
+        // Reset the queue if all requests are served
+        if (front > rear) {
+            front = rear = -1;
+        }
+
+        return requestedFloor;
+    }
+}
+
+// Function to simulate the lift moving to the requested floor
+void moveLift(int destinationFloor) {
+    if (destinationFloor > currentFloor) {
+        printf("Lift moving up from floor %d to floor %d\n", currentFloor, destinationFloor);
+    } else if (destinationFloor < currentFloor) {
+        printf("Lift moving down from floor %d to floor %d\n", currentFloor, destinationFloor);
+    } else {
+        printf("Lift is already on floor %d\n", currentFloor);
+    }
+
+    currentFloor = destinationFloor;
+    printf("Lift has arrived at floor %d\n", currentFloor);
+}
+
+// Main function to demonstrate lift management system
+int main() {
+    // Simulating lift requests
+    enqueue(5);
+    enqueue(2);
+    enqueue(8);
+    enqueue(1);
+    
+    // Serving requests
+    while (!isEmpty()) {
+        int requestedFloor = dequeue();
+        if (requestedFloor != -1) {
+            moveLift(requestedFloor);
+        }
+    }
+
+    // Additional requests can be added while the lift is in operation
+    enqueue(3);
+    enqueue(7);
+
+    while (!isEmpty()) {
+        int requestedFloor = dequeue();
+        if (requestedFloor != -1) {
+            moveLift(requestedFloor);
+        }
+    }
+
+    return 0;
+}
