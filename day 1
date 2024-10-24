@@ -1,45 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
 
-stack = []  
+#define MAX 5  // Define the maximum size of the stack
 
-def push(item):    
-    stack.append(item)  
+int stack[MAX];
+int top = -1;  // Initialize the top of the stack
 
-def pop():  
-    if not is_empty():  
-        return stack.pop()  
-    else:  
-        raise IndexError("pop from an empty stack")  
+// Function to check if the stack is full
+int isFull() {
+    return top == MAX - 1;
+}
 
-def peek():   
-    if not is_empty():  
-        return stack[-1]  
-    else:  
-        raise IndexError("peek from an empty stack")  
+// Function to check if the stack is empty
+int isEmpty() {
+    return top == -1;
+}
 
-def is_empty():   
-    return len(stack) == 0  
+// Function to push an element onto the stack
+void push(int value) {
+    if (isFull()) {
+        printf("Stack overflow! Cannot push %d\n", value);
+    } else {
+        top++;
+        stack[top] = value;
+        printf("Pushed %d onto the stack\n", value);
+    }
+}
 
-def size():   
-    return len(stack)  
+// Function to pop an element from the stack
+int pop() {
+    if (isEmpty()) {
+        printf("Stack underflow! Cannot pop\n");
+        return -1;
+    } else {
+        int poppedValue = stack[top];
+        top--;
+        printf("Popped %d from the stack\n", poppedValue);
+        return poppedValue;
+    }
+}
 
-# Example usage  
-if __name__ == "__main__":  
-    push(1)  
-    push(2)  
-    push(3)  
-    
-    print("Current Stack:", stack)   
-    
-    print("Top Item:", peek())    
-    print("Popped Item:", pop())   
-    print("Current Stack after pop:", stack)   
-    
-    print("Stack Size:", size())   
-    print("Is Stack Empty?", is_empty())  
-Current Stack: [1, 2, 3]
-Top Item: 3
-Popped Item: 3
-Current Stack after pop: [1, 2]
-Stack Size: 2
-Is Stack Empty? False
- 
+// Function to peek at the top element of the stack
+int peek() {
+    if (isEmpty()) {
+        printf("Stack is empty! Cannot peek\n");
+        return -1;
+    } else {
+        return stack[top];
+    }
+}
+
+// Main function to demonstrate stack operations
+int main() {
+    push(10);
+    push(20);
+    push(30);
+    push(40);
+    push(50);  // Stack is now full
+    push(60);  // This should cause a stack overflow
+
+    printf("Top element is %d\n", peek());
+
+    pop();
+    pop();
+    pop();
+    pop();
+    pop();  // Stack is now empty
+    pop();  // This should cause a stack underflow
+
+    return 0;
+}
