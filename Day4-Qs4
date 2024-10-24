@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure of a node
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to create a new node
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert a new node at the end of the linked list
+void append(struct Node** head, int value) {
+    struct Node* newNode = createNode(value);
+    
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+
+    struct Node* temp = *head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+
+// Recursive function to reverse the linked list
+struct Node* reverseList(struct Node* head) {
+    // Base case: If head is NULL or only one node, it's already reversed
+    if (head == NULL || head->next == NULL) {
+        return head;
+    }
+
+    // Recursively reverse the rest of the list
+    struct Node* rest = reverseList(head->next);
+
+    // Change the next node's next pointer to the current node
+    head->next->next = head;
+
+    // Set the current node's next to NULL (as it becomes the last node)
+    head->next = NULL;
+
+    // Return the new head of the reversed list
+    return rest;
+}
+
+// Function to print the linked list
+void printList(struct Node* head) {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+// Main function to demonstrate reversing the linked list
+int main() {
+    struct Node* head = NULL;
+
+    // Creating a linked list: 1 -> 2 -> 3 -> 4 -> 5 -> NULL
+    append(&head, 1);
+    append(&head, 2);
+    append(&head, 3);
+    append(&head, 4);
+    append(&head, 5);
+
+    printf("Original Linked List:\n");
+    printList(head);
+
+    // Reverse the linked list using recursion
+    head = reverseList(head);
+
+    printf("Reversed Linked List:\n");
+    printList(head);
+
+    return 0;
+}
