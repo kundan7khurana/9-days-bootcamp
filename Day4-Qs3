@@ -1,0 +1,159 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a node in the doubly linked list
+struct Node {
+    int data;            // Data part of the node
+    struct Node* prev;   // Pointer to the previous node
+    struct Node* next;   // Pointer to the next node
+};
+
+// Define the structure for the deque
+struct Deque {
+    struct Node* front;  // Points to the front node
+    struct Node* rear;   // Points to the rear node
+};
+
+// Function to create a new node
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->prev = newNode->next = NULL;
+    return newNode;
+}
+
+// Function to create an empty deque
+struct Deque* createDeque() {
+    struct Deque* deque = (struct Deque*)malloc(sizeof(struct Deque));
+    deque->front = deque->rear = NULL;
+    return deque;
+}
+
+// Function to check if the deque is empty
+int isEmpty(struct Deque* deque) {
+    return (deque->front == NULL);
+}
+
+// Function to insert an element at the front of the deque
+void insertFront(struct Deque* deque, int value) {
+    struct Node* newNode = createNode(value);
+    
+    if (isEmpty(deque)) {
+        deque->front = deque->rear = newNode;  // If deque is empty, both front and rear are the same
+    } else {
+        newNode->next = deque->front;          // Link the new node with the current front
+        deque->front->prev = newNode;          // Link the current front with the new node
+        deque->front = newNode;                // Move front to the new node
+    }
+    printf("Inserted %d at the front.\n", value);
+}
+
+// Function to insert an element at the rear of the deque
+void insertRear(struct Deque* deque, int value) {
+    struct Node* newNode = createNode(value);
+    
+    if (isEmpty(deque)) {
+        deque->front = deque->rear = newNode;  // If deque is empty, both front and rear are the same
+    } else {
+        newNode->prev = deque->rear;           // Link the new node with the current rear
+        deque->rear->next = newNode;           // Link the current rear with the new node
+        deque->rear = newNode;                 // Move rear to the new node
+    }
+    printf("Inserted %d at the rear.\n", value);
+}
+
+// Function to delete an element from the front of the deque
+void deleteFront(struct Deque* deque) {
+    if (isEmpty(deque)) {
+        printf("Deque underflow! Cannot delete from the front.\n");
+        return;
+    }
+
+    struct Node* temp = deque->front;
+    printf("Deleted %d from the front.\n", temp->data);
+
+    if (deque->front == deque->rear) {
+        deque->front = deque->rear = NULL;  // If there's only one element
+    } else {
+        deque->front = deque->front->next;  // Move front to the next node
+        deque->front->prev = NULL;          // Set the previous of the new front to NULL
+    }
+    
+    free(temp);  // Free the memory of the deleted node
+}
+
+// Function to delete an element from the rear of the deque
+void deleteRear(struct Deque* deque) {
+    if (isEmpty(deque)) {
+        printf("Deque underflow! Cannot delete from the rear.\n");
+        return;
+    }
+
+    struct Node* temp = deque->rear;
+    printf("Deleted %d from the rear.\n", temp->data);
+
+    if (deque->front == deque->rear) {
+        deque->front = deque->rear = NULL;  // If there's only one element
+    } else {
+        deque->rear = deque->rear->prev;    // Move rear to the previous node
+        deque->rear->next = NULL;           // Set the next of the new rear to NULL
+    }
+    
+    free(temp);  // Free the memory of the deleted node
+}
+
+// Function to get the front element of the deque without removing it
+int peekFront(struct Deque* deque) {
+    if (isEmpty(deque)) {
+        printf("Deque is empty! No front element.\n");
+        return -1;
+    }
+    return deque->front->data;
+}
+
+// Function to get the rear element of the deque without removing it
+int peekRear(struct Deque* deque) {
+    if (isEmpty(deque)) {
+        printf("Deque is empty! No rear element.\n");
+        return -1;
+    }
+    return deque->rear->data;
+}
+
+// Function to display the elements in the deque from front to rear
+void displayDeque(struct Deque* deque) {
+    if (isEmpty(deque)) {
+        printf("Deque is empty.\n");
+        return;
+    }
+
+    struct Node* temp = deque->front;
+    printf("Deque elements (front to rear): ");
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+// Main function to demonstrate deque operations
+int main() {
+    struct Deque* deque = createDeque();
+
+    insertFront(deque, 10);
+    insertRear(deque, 20);
+    insertFront(deque, 5);
+    insertRear(deque, 25);
+    displayDeque(deque);
+
+    printf("Front element: %d\n", peekFront(deque));
+    printf("Rear element: %d\n", peekRear(deque));
+
+    deleteFront(deque);
+    displayDeque(deque);
+
+    deleteRear(deque);
+    displayDeque(deque);
+
+    return 0;
+}
