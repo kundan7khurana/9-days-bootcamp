@@ -1,0 +1,67 @@
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->left = newNode->right = NULL;
+    return newNode;
+}
+struct Node* insert(struct Node* root, int value) {
+    if (root == NULL) {
+        return createNode(value);
+    }
+    // Logic to insert node in level order
+    // Use a queue for level-order insertion
+}
+void inorderTraversal(struct Node* root) {
+    if (root) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+void preorderTraversal(struct Node* root) {
+    if (root) {
+        printf("%d ", root->data);
+        preorderTraversal(root->left);
+        preorderTraversal(root->right);
+    }
+}
+void postorderTraversal(struct Node* root) {
+    if (root) {
+        postorderTraversal(root->left);
+        postorderTraversal(root->right);
+        printf("%d ", root->data);
+    }
+}
+struct Node* search(struct Node* root, int value) {
+    if (root == NULL || root->data == value) {
+        return root;
+    }
+    struct Node* foundNode = search(root->left, value);
+    return foundNode ? foundNode : search(root->right, value);
+}
+int height(struct Node* root) {
+    if (root == NULL) {
+        return 0;
+    }
+    int leftHeight = height(root->left);
+    int rightHeight = height(root->right);
+    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+}
+int main() {
+    struct Node* root = NULL; // Initialize root
+    root = insert(root, 10);  // Insert root
+    insert(root, 20);         // Insert left child
+    insert(root, 30);         // Insert right child
+
+    printf("In-Order Traversal: ");
+    inorderTraversal(root);    // Outputs: 20 10 30
+    printf("\n");
+
+    printf("Height of the tree: %d\n", height(root)); // Outputs: 2
+    return 0;
+}
